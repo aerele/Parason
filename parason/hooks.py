@@ -44,7 +44,7 @@ app_license = "Parason"
 
 # website user home page (by Role)
 # role_home_page = {
-#	"Role": "home_page"
+# 	"Role": "home_page"
 # }
 
 # Generators
@@ -52,6 +52,15 @@ app_license = "Parason"
 
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
+
+from erpnext.manufacturing.doctype.production_plan import (
+    production_plan as _production_plan,
+)
+from parason.custompy.production_plan import (
+    custom_get_sales_orders as _custom_get_sales_order,
+)
+
+_production_plan.get_sales_orders = _custom_get_sales_order
 
 # Installation
 # ------------
@@ -89,13 +98,14 @@ app_license = "Parason"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-#	}
-# }
+doc_events = {
+    # 	"*": {
+    # 		"on_update": "method",
+    # 		"on_cancel": "method",
+    # 		"on_trash": "method"
+    # 	}
+    "Job Card": {"before_save": "parason.custompy.job_card.before_save"}
+}
 
 # Scheduled Tasks
 # ---------------
@@ -146,24 +156,22 @@ app_license = "Parason"
 # --------------------
 
 user_data_fields = [
-	{
-		"doctype": "{doctype_1}",
-		"filter_by": "{filter_by}",
-		"redact_fields": ["{field_1}", "{field_2}"],
-		"partial": 1,
-	},
-	{
-		"doctype": "{doctype_2}",
-		"filter_by": "{filter_by}",
-		"partial": 1,
-	},
-	{
-		"doctype": "{doctype_3}",
-		"strict": False,
-	},
-	{
-		"doctype": "{doctype_4}"
-	}
+    {
+        "doctype": "{doctype_1}",
+        "filter_by": "{filter_by}",
+        "redact_fields": ["{field_1}", "{field_2}"],
+        "partial": 1,
+    },
+    {
+        "doctype": "{doctype_2}",
+        "filter_by": "{filter_by}",
+        "partial": 1,
+    },
+    {
+        "doctype": "{doctype_3}",
+        "strict": False,
+    },
+    {"doctype": "{doctype_4}"},
 ]
 
 # Authentication and authorization
@@ -172,4 +180,3 @@ user_data_fields = [
 # auth_hooks = [
 # 	"parason.auth.validate"
 # ]
-
