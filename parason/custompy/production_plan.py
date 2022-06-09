@@ -2,7 +2,6 @@ import frappe
 
 
 def custom_get_sales_orders(self):
-    print("out")
     so_filter = item_filter = ""
     bom_item = "bom.item = so_item.item_code"
     if self.for_plant:
@@ -47,38 +46,3 @@ def custom_get_sales_orders(self):
     )
 
     return open_so
-
-
-def custom_create_job_card(work_order, row, enable_capacity_planning=False, auto_create=False):
-	doc = frappe.new_doc("Job Card")
-	doc.update({
-		'work_order': work_order.name,
-		'operation': row.get("operation"),
-		'workstation': row.get("workstation"),
-		'posting_date': nowdate(),
-		'for_quantity': row.job_card_qty or work_order.get('qty', 0),
-		'operation_id': row.get("name"),
-		'bom_no': work_order.bom_no,
-		'project': work_order.project,
-		'company': work_order.company,
-		'sequence_id': row.get("sequence_id"),
-		'wip_warehouse': work_order.wip_warehouse,
-		'hour_rate': row.get("hour_rate"),
-		'serial_no': row.get("serial_no")
-	})
-
-
-
-
-	if work_order.transfer_material_against == 'Job Card' and not work_order.skip_transfer:
-		doc.get_required_items()
-
-	if auto_create:
-		doc.flags.ignore_mandatory = True
-		if enable_capacity_planning:
-			doc.schedule_time_logs(row)
-
-		doc.insert()
-		frappe.msgprint(_("Job card {0} created").format(get_link_to_form("Job Card", doc.name)), alert=True)
-
-	return doc

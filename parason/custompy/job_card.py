@@ -12,5 +12,4 @@ def before_save(self, method):
         "time_in_mins": doc.time_in_mins,
         "completed_qty": doc.completed_qty,
     }
-    print(log)
     self.append("time_logs", log)
