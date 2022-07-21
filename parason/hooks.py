@@ -57,10 +57,14 @@ from erpnext.manufacturing.doctype.production_plan import (
     production_plan as _production_plan,
 )
 from parason.custompy.production_plan import (
-    custom_get_sales_orders as _custom_get_sales_order,
+    custom_get_sales_orders as _custom_get_sales_order
 )
 
 _production_plan.get_sales_orders = _custom_get_sales_order
+
+from frappe.contacts.doctype.address import address as _address
+from parason.custompy.address import custom_get_default_address as _custom_get_default_address
+_address.get_default_address = _custom_get_default_address
 
 # Installation
 # ------------
@@ -90,9 +94,10 @@ _production_plan.get_sales_orders = _custom_get_sales_order
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
+override_doctype_class = {
+	"Production Plan": "parason.custompy.production_plan.CustomProductionPlan"
 # 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+}
 
 # Document Events
 # ---------------
@@ -136,9 +141,10 @@ doc_events = {
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
+override_whitelisted_methods = {
+    "frappe.contacts.doctype.address.address.get_default_address":"parason.custompy.address.custom_get_default_address"
 # 	"frappe.desk.doctype.event.event.get_events": "parason.event.get_events"
-# }
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,

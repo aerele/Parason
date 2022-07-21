@@ -1,5 +1,5 @@
 import frappe
-
+from erpnext.manufacturing.doctype.production_plan.production_plan import ProductionPlan
 
 def custom_get_sales_orders(self):
     so_filter = item_filter = ""
@@ -46,3 +46,19 @@ def custom_get_sales_orders(self):
     )
 
     return open_so
+
+class CustomProductionPlan(ProductionPlan):
+    def set_sub_assembly_items_based_on_level(self, row, bom_data, manufacturing_type=None):
+        bom_data = sorted(bom_data, key=lambda i: i.bom_level)
+        for data in bom_data:
+            data.qty = data.stock_qty
+            data.production_plan_item = row.name
+            data.schedule_date = row.planned_start_date
+            data.type_of_manufacturing = manufacturing_type or (
+                "Subcontract" if data.is_sub_contracted_item else "In House"
+            )
+            plant = frappe.db.get_value("Warehouse", row.warehouse, "plant")
+            wip_warehouse = frappe.db.get_value("Warehouse", { 'plant': plant, 'stage': 'Work in Progress'})
+            data.fg_warehouse = wip_warehouse if data.type_of_manufacturing=="In House" else row.warehouse
+
+            self.append("sub_assembly_items", data)
