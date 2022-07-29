@@ -143,7 +143,8 @@ doc_events = {
 #
 override_whitelisted_methods = {
     # "frappe.contacts.doctype.address.address.get_default_address":"parason.custompy.address.get_default_address",
-    "erpnext.accounts.custom.address.get_shipping_address": "parason.custompy.address.get_shipping_address"
+    "erpnext.accounts.custom.address.get_shipping_address": "parason.custompy.address.get_shipping_address",
+    "erpnext.setup.doctype.company.company.get_default_company_address": "parason.custompy.address.get_default_company_address"
 # 	"frappe.desk.doctype.event.event.get_events": "parason.event.get_events"
 }
 #

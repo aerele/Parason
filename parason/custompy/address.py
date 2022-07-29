@@ -26,3 +26,7 @@ def custom_get_default_address(doctype, name, sort_key='is_primary_address'):
 @frappe.whitelist()
 def get_shipping_address(company, address = None):
 	return
+
+@frappe.whitelist()
+def get_default_company_address(name, sort_key='is_primary_address', existing_address=None):
+	return None
