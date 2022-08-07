@@ -95,7 +95,8 @@ _address.get_default_address = _custom_get_default_address
 # Override standard doctype classes
 
 override_doctype_class = {
-	"Production Plan": "parason.custompy.production_plan.CustomProductionPlan"
+	"Production Plan": "parason.custompy.production_plan.CustomProductionPlan",
+	"Payment Request": "parason.custompy.payment_request.CustomPaymentRequest"
 # 	"ToDo": "custom_app.overrides.CustomToDo"
 }
 
