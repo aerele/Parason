@@ -110,8 +110,18 @@ doc_events = {
     # 		"on_cancel": "method",
     # 		"on_trash": "method"
     # 	}
-    "Job Card": {"before_save": "parason.custompy.job_card.before_save"}
+    "Job Card": {"before_save": "parason.custompy.job_card.before_save"},
+    "Sales Order":{
+        "validate": "parason.custompy.sales_order.before_submit"
+    },
+    "Journal Entry":{
+        "validate":"parason.custompy.journal_entry.validate"
+    }
 }
+
+after_migrate = [
+    "parason.update_type"
+]
 
 # Scheduled Tasks
 # ---------------
