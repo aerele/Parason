@@ -193,7 +193,7 @@
    "columns": 0,
    "creation": "2022-08-27 00:32:18.491176",
    "default": null,
-   "depends_on": null,
+   "depends_on": "eval: doc.docstatus==1;",
    "description": null,
    "docstatus": 0,
    "dt": "Purchase Order",
