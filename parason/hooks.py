@@ -116,6 +116,12 @@ doc_events = {
     },
     "Journal Entry":{
         "validate":"parason.custompy.journal_entry.validate"
+    },
+    "Purchase Order":{
+        "before_submit": "parason.custompy.share_doc.share_doc"
+    },
+    "Delivery Note":{
+        "before_submit": "parason.custompy.share_doc.share_doc"
     }
 }
 
