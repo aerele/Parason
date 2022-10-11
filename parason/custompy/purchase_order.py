@@ -1,4 +1,6 @@
 import frappe
+from erpnext.controllers.accounts_controller import update_child_qty_rate
+import json
 
 @frappe.whitelist()
 def update_material_request(name):
@@ -14,6 +16,15 @@ def update_material_request(name):
 			frappe.db.set_value("Purchase Order Item", i.name, 'material_request', mr_items[i.item_code][0])
 			frappe.db.set_value("Purchase Order Item", i.name, 'material_request_item', mr_items[i.item_code][1])
 	doc.reload()
-	doc.update_blanket_order()
-	doc.update_billing_percentage()
-	doc.set_status()
+	update_child_qty_rate(parent_doctype="Purchase Order", trans_items=json.dumps([dict(
+        docname = i.name,
+        name = i.name,
+        item_code = i.item_code,
+        schedule_date = str(i.get("schedule_date")),
+        conversion_factor = i.conversion_factor,
+        qty = i.qty,
+        rate = i.rate,
+        uom = i.uom,
+        __islocal = False,
+        idx = i.idx
+    ) for i in doc.items]), parent_doctype_name=name, child_docname="items")
