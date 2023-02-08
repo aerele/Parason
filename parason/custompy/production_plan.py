@@ -61,4 +61,4 @@ class CustomProductionPlan(ProductionPlan):
             wip_warehouse = frappe.db.get_value("Warehouse", { 'plant': plant, 'stage': 'Work in Progress'})
             data.fg_warehouse = wip_warehouse if data.type_of_manufacturing=="In House" else row.warehouse
 
-            self.append("sub_assembly_items", data)
+            #self.append("sub_assembly_items", data)
